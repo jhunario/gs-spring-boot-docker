@@ -21,6 +21,17 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
 
+- task: AzureFileCopy@4
+  inputs:
+    SourcePath: '*'
+    azureSubscription: 'Visual Studio Enterprise(1d99e725-53aa-438b-96af-f6812140ffd8)'
+    Destination: 'AzureVMs'
+    storage: 'stg3hrd4btwztphe'
+    resourceGroup: 'JAVADEMOUSINGAZ_GROUP'
+    MachineNames: 'demoVMJava'
+    vmsAdminUserName: 'jganapin'
+    vmsAdminPassword: 'AttackOnTitan20!'
+    TargetPath: '/home/jganapin/build'
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
