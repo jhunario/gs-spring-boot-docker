@@ -21,17 +21,6 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
 
-- task: AzureFileCopy@4
-  inputs:
-    SourcePath: '*'
-    azureSubscription: 'Visual Studio Enterprise(1d99e725-53aa-438b-96af-f6812140ffd8)'
-    Destination: 'AzureVMs'
-    storage: 'stg3hrd4btwztphe'
-    resourceGroup: 'JAVADEMOUSINGAZ_GROUP'
-    MachineNames: 'demoVMJava'
-    vmsAdminUserName: 'jganapin'
-    vmsAdminPassword: 'AttackOnTitan20!'
-    TargetPath: '/home/jganapin/build'
 - task: ArchiveFiles@2
   inputs:
     rootFolderOrFile: '$(Build.BinariesDirectory)'
@@ -39,3 +28,18 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'javademo'
+    publishLocation: 'Container'
+    FileCopyOptions: 
+
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'ssh -i "C:\Users\jganapin\.ssh" jganapin@40.117.147.48'
+    sourceFolder: '/'
+    contents: '**'
+    targetFolder: '/home/jganapin/build'
+    readyTimeout: '20000'
