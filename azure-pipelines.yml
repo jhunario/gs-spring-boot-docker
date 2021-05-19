@@ -28,11 +28,14 @@ steps:
     
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    rootFolderOrFile: '$(Build.BinariesDirectory)/www'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+  displayName: 'Publish Artifacts'
+- publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  artifact: demoJava
 
 - task: PublishBuildArtifacts@1
   inputs:
