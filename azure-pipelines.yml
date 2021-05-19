@@ -25,10 +25,16 @@ steps:
     knownHostsEntry: 'AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ=='
     sshPublicKey: '-----BEGIN RSA PRIVATE KEY----- MIIEpQIBAAKCAQEA0YDBWkuc9UehSS0uON5j/iN7FyBlTyAPMU+/3kV7NHkvb87B WNcUS9iQ9bMoHDU57QZh8Q8Cx+blgyhTTFhev9RlXUzscTLUcrpfrJMi/LU+svfQ Ke2CDJDH7D6q39cIxaRiCI0Sr4jb2/Xpo72OrH4r9fjylsETxrY134uEvfWY1hqT PKjcti5A7BG7nprssz1wmcJ4jykYCM+5HVV9Zkn0Rnn0ynEshh+VtANTvPXqUaLe R66mh1H49rKajTIcETkiY+c+Uib3AAV1vMIZFckREgZDIbKJ2dVF8RI0Qwja58Qq q49aoj1HSQE5PsXrb9CuzzVTaq42hU3qTav/swIDAQABAoIBAQCL1KI5AErMs3iE /PDi6BxZXZkkgGzd+Qnq4c2wLzPifBgbSiZmg3d6gBuQwnk9CpGVEDOCz4ANqKD7 f4jJZhoncz4MnfEaRNDjml2NM8+gV+B3V0vLEElC1cd6eQFX0ZB7ShJcnrwgCPql v2an8TcvDi+NRxGzaT8n3CntAJQirHmmh++xFaZgaUx/PawX0LmF0Koe1IZOPpRh wUtIZUurMKJ+yIVaPFQF0fdps38dBHyfw6+g+VywTKNvHVu5bamW0ElET7+2Jcmy 6H8IM5/LwUER5cBR/bOrE5NnPftClUqFFxBkGTuTKg6uOUIS6clCrF85ahYeqoSM m3WrjzLxAoGBAPr9urjmQqHb+LFGkSQXatqx1pMGJAg12eBtD90BkQw/I5uSLJuk pq4bBNLgf0jIpiRPxNZOZnT8jPWpLgjrWtKjWCe5MocSUBBpeOKNieTJOUT9ZAax 4Kb4pCfhABZ14gzeG72ppDYn+2UpMxGRyIDk0zX6Yx+OBnmL48tmjb1dAoGBANWv EeVzhnT3ozJOxG0ftfe5fzZZrOZLrf0p05ycVOeayxuejF39My6K6DYuUV35kcqw FSpM94lO4QlGF50lMrJolsHe5H7X9eV+1Wpdc1CGAPHPjsf2PWwLxHIHlpczyhtD 24tpB7FhR/KIcsW3Mo5Mi84seN9t7BaXxXoCL9BPAoGBALvVoyW4/OjRDJ7u5rQR 6l/cc274S4LxeiqgtBx7jaeSoP1OOaAJaswlYEjIxbkcoGnQYMjZR4gJcRxwDgmS yReWMuUXjh7Tr6N4q4Uw05+qj/d3gqIYAL40mfVWR5CHjDKBDlW0XTZCWbttR9DA P0Nm/EILLp9w1Jul+0Y/a5fpAoGBAKV6LiHClR1/qKIM3ZCkPgbZX+p3B65QbSzg dz+Q0S+KcD+zSICA1GH2sF1FAT4FRyHvunRHpmpu61aDMUZAyEHhPN5l/g08sPBI iH0WYXa6T4Dze17fEjHZ6wdjWPs+4AS9SAduDscOzujDQh5bAIuyO5IuXmyoc2wL nKIfj2eBAoGAa1sJ4ZaUFFdZhKbp88t+zGa9dERpWAjxKbh6N3aTlluF/d0S0HXm cRrLzcaeQOpoyD8J55Sx2jzvGEMS9OKTx6I6z9if7c73EeN1wniVeO6mS9ctEh8J EPFv0M4Oq8Cla0QTsvzXAqAdJcZCJV2n4sEbRp0OwKxrzHX0Vf2lvKk= -----END RSA PRIVATE KEY-----'
     sshKeySecureFile: 'myKey'
-    
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/www'
+    rootFolderOrFile: '$(Build.SourcesDirectory)/'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
